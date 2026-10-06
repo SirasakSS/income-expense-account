@@ -1,127 +1,320 @@
-@import url('https://fonts.googleapis.com/css2?family=Kanit&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap');
 
-:root{
-    --box-shadow:0 1px 3px rgba(0,0,0,0.12)
+:root {
+    --bg: #f3f4f8;
+    --card: #ffffff;
+    --text: #1f2430;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --primary: #6d28d9;
+    --primary-dark: #5b21b6;
+    --income: #16a34a;
+    --expense: #dc2626;
+    --shadow: 0 2px 10px rgba(31, 36, 48, 0.08);
 }
-*{
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #12141a;
+        --card: #1c1f27;
+        --text: #eceef3;
+        --muted: #9aa1b0;
+        --border: #2d313c;
+        --primary: #8b5cf6;
+        --primary-dark: #7c3aed;
+        --income: #4ade80;
+        --expense: #f87171;
+        --shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    }
+}
+
+* {
     box-sizing: border-box;
     font-family: 'Kanit', sans-serif;
 }
-body{
-    font-family: 'Kanit', sans-serif;
-    background-color: #f7f7f7;
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 24px 16px 48px;
+}
+
+.app {
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.app-title {
+    font-size: 22px;
+    font-weight: 600;
+    text-align: center;
+    margin: 8px 0 20px;
+}
+
+.card {
+    background: var(--card);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    padding: 20px;
+    margin-bottom: 16px;
+}
+
+h2 {
+    font-size: 17px;
+    font-weight: 500;
+    margin: 0 0 14px;
+}
+
+.label {
+    color: var(--muted);
+    font-size: 14px;
+    margin: 0;
+}
+
+/* ยอดคงเหลือ */
+.balance-card {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+}
+
+.balance-card .label {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.balance {
+    font-size: 36px;
+    font-weight: 600;
+    margin: 4px 0 18px;
+    letter-spacing: 0.5px;
+    word-break: break-word;
+}
+
+.balance.negative {
+    color: #fecaca;
+}
+
+.summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.summary > div {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 10px 14px;
+}
+
+.money {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 2px 0 0;
+}
+
+.balance-card .money {
+    color: #fff;
+}
+
+/* ฟอร์ม */
+.type-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--bg);
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 14px;
+}
+
+.type-option {
+    position: relative;
+    cursor: pointer;
+}
+
+.type-option input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    cursor: pointer;
+}
+
+.type-option span {
+    display: block;
+    text-align: center;
+    padding: 9px;
+    border-radius: 9px;
+    color: var(--muted);
+    transition: background 0.2s, color 0.2s;
+}
+
+.type-option input:checked + span {
+    background: var(--card);
+    color: var(--text);
+    box-shadow: var(--shadow);
+    font-weight: 500;
+}
+
+.type-option:has(input[value="income"]:checked) span {
+    color: var(--income);
+}
+
+.type-option:has(input[value="expense"]:checked) span {
+    color: var(--expense);
+}
+
+.type-option input:focus-visible + span {
+    outline: 2px solid var(--primary);
+}
+
+.form-control {
+    margin-bottom: 12px;
+}
+
+.form-control label {
+    display: block;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 16px;
+    padding: 11px 12px;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: -1px;
+    border-color: transparent;
+}
+
+.error {
+    color: var(--expense);
+    font-size: 14px;
+    margin: 0 0 10px;
+}
+
+.btn {
+    width: 100%;
+    background: var(--primary);
+    color: #fff;
+    border: 0;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn:hover {
+    background: var(--primary-dark);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* รายการ */
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.link-btn {
+    background: none;
+    border: 0;
+    color: var(--muted);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.link-btn:hover {
+    color: var(--expense);
+}
+
+.list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.list li:last-child {
+    border-bottom: 0;
+}
+
+.item-info {
+    flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    margin:0;
 }
-.container{
-    margin:30px auto;
-    width: 350px;
+
+.item-name {
+    overflow-wrap: anywhere;
 }
-h1{
-    letter-spacing: 1px;
-    margin:0;
+
+.item-date {
+    font-size: 12px;
+    color: var(--muted);
 }
-h3{
-    border-bottom: 1px solid #bbb;
-    padding-bottom: 10px;
-    margin:40px 0 10px;
+
+.item-amount {
+    font-weight: 500;
+    white-space: nowrap;
 }
-h4{
-    margin:0;
+
+.list li.plus .item-amount {
+    color: var(--income);
 }
-.income-expense-container{
-    display: flex;
-    justify-content: space-between;
-    background-color: #fff;
-    box-shadow: var(--box-shadow);
-    padding: 20px;
-    margin:20px 0;
+
+.list li.minus .item-amount {
+    color: var(--expense);
 }
-.income-expense-container>div{
-    flex:1;
+
+.delete-btn {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--bg);
+    color: var(--muted);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.delete-btn:hover,
+.delete-btn:focus-visible {
+    background: var(--expense);
+    color: #fff;
+}
+
+.empty {
+    color: var(--muted);
     text-align: center;
+    margin: 12px 0 4px;
 }
-.income-expense-container>div:first-of-type{
-    border-right: 1px solid #dedede;
-}
-.money{
-    font-size:20px;
-    letter-spacing: 1px;
-    margin:5px 0;
-}
-.money.plus{
-    color:#2ecc71;
-}
-.money.minus{
-    color:red;
-}
-label{
-    display: inline-block;
-    margin:10px 0;
-}
-input[type="text"],input[type="number"]{
-    border:1px solid #dedede;
-    border-radius: 2px;
-    display: block;
-    font-size:16px;
-    padding:10px;
-    width: 100%;
-}
-.btn{
-    font-family: 'Kanit', sans-serif;
-    background-color: purple;
-    cursor: pointer;
-    color:#fff;
-    box-shadow: var(--box-shadow);
-    display: block;
-    margin:10px 0 30px;
-    padding: 10px;
-    font-size:16px;
-    width: 100%;
-}
-.list{
-    list-style-type: none;
-    padding: 0;
-    margin-bottom: 40px;
-}
-.list li{
-    background-color: #fff;
-    box-shadow: var(--box-shadow);
-    color:#333;
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-    padding: 10px;
-    margin:10px 0;
-}
-.list li.plus{
-    border-right:5px solid #2ecc71;
-}
-.list li.minus{
-    border-right:5px solid red;
-}
-.delete-btn{
-    cursor: pointer;
-    background-color:red;
-    color:#fff;
-    border:0;
-    font-size:20px;
-    line-height: 20px;
-    padding: 2px 5px;
-    position: absolute;
-    top:50%;
-    left:0;
-    transform:translate(-100%,-50%);
-    opacity: 0;
-    transition:opacity 0.3s ease;
-}
-.list li:hover .delete-btn{
-    opacity: 1;
-}
-.btn:focus,.delete-btn:focus{
-    outline: 0;
+
+[hidden] {
+    display: none !important;
 }
